@@ -40,6 +40,12 @@ app.get('/api/notes',(req,res) => {
   });
 })
 
+//Starts server to begin listening
+app.listen(PORT, () => {
+  console.log(`App listening at http://localhost:${PORT}`)
+});
+
+
 //Api get
 app.get('/api/notes/:id', (req, res) => {
   res.json({
@@ -50,7 +56,7 @@ app.get('/api/notes/:id', (req, res) => {
 });
 
 //res.json() allows us to return JSON instead of a buffer. 
-app.get('/api/public/notes', (req, res) => {
+app.get('/api/public/:notes', (req, res) => {
   fs.readFile('./db/db.json', 'utf-8',(err,data) => {
     if(err) {
       console.error(err);
@@ -75,11 +81,7 @@ app.get('/api/public/notes', (req, res) => {
 
 
 // Catch all error code 
-app.get("*",(req,res)=>{
-  res.sendFile(path.join(_dirname,'pubic/indexedDB,html'));
+app.get("*", (req,res) =>{
+  res.sendFile(path.join(_dirname,'pubic/indexhtml'));
 });
-
-//Starts server to begin listening
-app.listen(PORT, () =>
-  console.log(`App listening at http://localhost:${PORT}`)
-);
+})
