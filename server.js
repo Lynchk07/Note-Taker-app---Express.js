@@ -38,7 +38,7 @@ app.get('/api/notes',(req,res) => {
     }
     res.json(notes);
   });
-})
+});
 
 //Starts server to begin listening
 app.listen(PORT, () => {
@@ -56,7 +56,7 @@ app.get('/api/notes/:id', (req, res) => {
 });
 
 //res.json() allows us to return JSON instead of a buffer. 
-app.get('/api/public/:notes', (req, res) => {
+app.post('/api/public/:notes', (req, res) => {
   fs.readFile('./db/db.json', 'utf-8',(err,data) => {
     if(err) {
       console.error(err);
@@ -72,16 +72,28 @@ app.get('/api/public/:notes', (req, res) => {
     
     };
 });
+});
 
 
 // //delete notes 
-// app.delete('/api/notes/:deleteNote_id',(req,res)=> {
-// res.deleteFile(path.join(_dirname,'public/notes.html'));
-// });
+app.delete('/api/notes/:id',(req,res)=> {
+  fs.readFile('./db/db.json', 'utf-8',(err,data) => {
+  if(err) {
+    console.error(err);
+  } 
+  else{
+    //Convert string to JSON object
+  const notes = JSON.parse(data)
+
+  // delete notes
+    res.deleteFile(notes);
+};
+  });
+
 
 
 // Catch all error code 
-app.get("*", (req,res) =>{
-  res.sendFile(path.join(_dirname,'pubic/indexhtml'));
+app.get("*", (req,res) => {
+  res.sendFile(path.join(_dirname,'pubic/index.html'));
 });
-})
+  });
